@@ -19,5 +19,28 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      'react-refresh/only-export-components': [
+        'warn',
+        {
+          allowExportNames: [
+            'Route',
+            'loader',
+            'clientLoader',
+            'action',
+            'clientAction',
+            'pendingComponent',
+            'errorComponent',
+            'notFoundComponent',
+            'component',
+            'meta',
+            'links',
+            'headers',
+            'handle',
+            'shouldRevalidate',
+          ],
+        },
+      ],
+    },
   },
 ]);
