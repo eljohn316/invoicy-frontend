@@ -1,1 +1,22 @@
 @import 'tailwindcss';
+@import '@fontsource-variable/league-spartan/wght.css';
+
+@theme {
+  --color-primary-50: #f4f3ff;
+  --color-primary-100: #eae8ff;
+  --color-primary-200: #d8d5ff;
+  --color-primary-300: #bbb3ff;
+  --color-primary-400: #9988fd;
+  --color-primary-500: #7c5dfa;
+  --color-primary-600: #6736f1;
+  --color-primary-700: #5824dd;
+  --color-primary-800: #491dba;
+  --color-primary-900: #3e1a98;
+  --color-primary-950: #240e67;
+}
+
+@layer base {
+  body {
+    font-family: 'League Spartan Variable', sans-serif;
+  }
+}
