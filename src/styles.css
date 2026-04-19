@@ -13,6 +13,18 @@
   --color-primary-800: #491dba;
   --color-primary-900: #3e1a98;
   --color-primary-950: #240e67;
+
+  --color-bunker-50: #f5f6fa;
+  --color-bunker-100: #eaecf4;
+  --color-bunker-200: #cfd5e8;
+  --color-bunker-300: #a5b2d4;
+  --color-bunker-400: #7589bb;
+  --color-bunker-500: #536aa4;
+  --color-bunker-600: #405389;
+  --color-bunker-700: #35436f;
+  --color-bunker-800: #2f3b5d;
+  --color-bunker-900: #2b334f;
+  --color-bunker-950: #0c0e16;
 }
 
 @layer base {
