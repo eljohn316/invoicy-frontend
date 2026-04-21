@@ -7,3 +7,7 @@ export type InvoiceListItem = {
   status: Status;
   total: number;
 };
+
+export type InvoiceSearchParam = {
+  status: string[];
+};

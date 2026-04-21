@@ -23,7 +23,7 @@ export function InvoiceListItem({ invoice }: InvoiceListItemProps) {
           {invoice.id}
         </span>
       </div>
-      <div className="xs:flex xs:items-center xs:justify-between xs:gap-x-4 space-y-2">
+      <div className="xs:flex xs:items-center xs:justify-between xs:gap-x-4 xs:space-y-0 space-y-3">
         <div className="flex-1">
           <p className="font-medium text-gray-900">{invoice.clientName}</p>
           <div className="flex items-baseline">

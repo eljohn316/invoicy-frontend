@@ -18,7 +18,7 @@ function RouteComponent() {
   return (
     <div className="mx-auto max-w-3xl">
       <InvoiceListHeader />
-      <div className="mt-8 md:mt-12">
+      <div className="mt-4 sm:mt-8 md:mt-12">
         <Outlet />
       </div>
     </div>

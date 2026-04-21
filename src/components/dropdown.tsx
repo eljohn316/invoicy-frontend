@@ -16,7 +16,7 @@ function DropdownMenuTrigger({ className, children, ...props }: MenuPrimitive.Tr
     <MenuPrimitive.Trigger
       data-slot="dropdown-menu-trigger"
       className={cn(
-        'inline-flex items-center gap-x-2.5 px-2 font-semibold text-gray-900 data-popup-open:[&_svg]:rotate-180',
+        'inline-flex items-center gap-x-2 px-2 font-semibold text-gray-900 data-popup-open:[&_svg]:rotate-180',
         className,
       )}
       {...props}>

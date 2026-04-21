@@ -47,7 +47,7 @@ export function Filter() {
         <DropdownMenuCheckboxItem
           checked={search.status.includes('paid')}
           onCheckedChange={(checked) => onSetStatus(checked, 'paid')}>
-          Status
+          Paid
         </DropdownMenuCheckboxItem>
       </DropdownMenuContent>
     </DropdownMenu>
