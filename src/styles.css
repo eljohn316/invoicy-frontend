@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import 'tw-animate-css';
 @import '@fontsource-variable/league-spartan/wght.css';
 
 @theme {
@@ -30,5 +31,9 @@
 @layer base {
   body {
     font-family: 'League Spartan Variable', sans-serif;
+  }
+
+  button {
+    cursor: pointer;
   }
 }
