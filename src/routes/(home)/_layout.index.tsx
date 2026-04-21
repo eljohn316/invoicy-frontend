@@ -1,6 +1,6 @@
 import { InvoiceListItem } from '@/features/invoices/components/invoice-list-item';
 import type { InvoiceListItem as Invoice } from '@/features/invoices/types/invoice';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/(home)/_layout/')({
   component: RouteComponent,
@@ -34,7 +34,9 @@ function RouteComponent() {
   return (
     <div className="divide-y divide-gray-200 *:py-4 *:first:pt-0 *:last:pb-0">
       {invoices.map((invoice) => (
-        <InvoiceListItem key={invoice.id} invoice={invoice} />
+        <Link to="/invoices/$invoiceId" params={{ invoiceId: invoice.id }} className="block">
+          <InvoiceListItem key={invoice.id} invoice={invoice} />
+        </Link>
       ))}
     </div>
   );
