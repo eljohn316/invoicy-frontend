@@ -11,3 +11,33 @@ export type InvoiceListItem = {
 export type InvoiceSearchParam = {
   status: string[];
 };
+
+type Address = {
+  street: string;
+  city: string;
+  postCode: string;
+  country: string;
+};
+
+type Item = {
+  name: string;
+  quantity: number;
+  price: number;
+  total: number;
+};
+
+export type Invoice = {
+  description: string;
+  paymentTerms: number;
+  clientName: string;
+  clientEmail: string;
+  status: Status;
+  senderAddress: Address;
+  clientAddress: Address;
+  items: Item[];
+  id: string;
+  dateIssued: Date;
+  createdAt: Date;
+  paymentDue: Date;
+  total: number;
+};

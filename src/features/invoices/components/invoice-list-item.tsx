@@ -1,28 +1,18 @@
-import { format } from 'date-fns';
 import type { InvoiceListItem } from '@/features/invoices/types/invoice';
 import { InvoiceStatus } from '@/features/invoices/components/invoice-status';
 import { Skeleton } from '@/components/skeleton';
-import { formatAmount } from '@/lib/utils';
+import { formatAmount, formatDate } from '@/lib/utils';
 
 type InvoiceListItemProps = {
   invoice: InvoiceListItem;
 };
 
-const formatDate = (date: Date) => {
-  return format(date, 'dd LLL yyyy');
-};
-
 export function InvoiceListItem({ invoice }: InvoiceListItemProps) {
   return (
     <div className="group space-y-3">
-      <div className="flex items-center gap-x-2">
-        <span className="rounded-sm bg-gray-200 px-1.5 py-1 text-xs leading-none font-medium text-gray-900 uppercase">
-          Invoice ID
-        </span>
-        <span className="text-primary-500 font-semibold underline-offset-2 group-hover:underline">
-          {invoice.id}
-        </span>
-      </div>
+      <p className="text-primary-500 font-semibold underline-offset-2 group-hover:underline">
+        #{invoice.id}
+      </p>
       <div className="xs:flex xs:items-center xs:justify-between xs:gap-x-4 xs:space-y-0 space-y-3">
         <div className="flex-1">
           <p className="font-medium text-gray-900">{invoice.clientName}</p>

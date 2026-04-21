@@ -1,5 +1,5 @@
 import { Menu as MenuPrimitive } from '@base-ui/react/menu';
-import { ChevronDownIcon } from 'lucide-react';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
 
 import { cn } from '@/lib/utils';
 
