@@ -26,6 +26,8 @@
   --color-bunker-800: #2f3b5d;
   --color-bunker-900: #2b334f;
   --color-bunker-950: #0c0e16;
+
+  --breakpoint-xs: 30rem;
 }
 
 @layer base {

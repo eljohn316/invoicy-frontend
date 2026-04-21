@@ -1,16 +1,17 @@
 import { useNavigate, useSearch } from '@tanstack/react-router';
+import type { Status } from '@/features/invoices/types/invoice';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from './dropdown';
+} from '@/components/dropdown';
 
 export function Filter() {
   const search = useSearch({ from: '/(home)/_layout' });
   const navigate = useNavigate();
 
-  function onSetStatus(checked: boolean, value: 'draft' | 'pending' | 'paid') {
+  function onSetStatus(checked: boolean, value: Status) {
     navigate({
       to: '/',
       search: (prev) => {
