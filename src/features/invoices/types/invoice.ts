@@ -41,3 +41,8 @@ export type Invoice = {
   paymentDue: Date;
   total: number;
 };
+
+export type InvoiceCreatePayload = Omit<
+  Invoice,
+  'id' | 'total' | 'createdAt' | 'paymentDue' | 'items' | 'dateIssued'
+> & { items: Omit<Item, 'total'>[]; dateIssued: string };

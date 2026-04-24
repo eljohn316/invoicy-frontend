@@ -4,6 +4,7 @@ import { notFound } from '@tanstack/react-router';
 import { api } from '@/api';
 import type {
   Invoice,
+  InvoiceCreatePayload,
   InvoiceListItem,
   InvoiceSearchParam,
 } from '@/features/invoices/types/invoice';
@@ -25,6 +26,16 @@ export const getInvoice = async (invoiceId: string) => {
     return data;
   } catch (e) {
     if (isAxiosError(e) && e.status === 404) throw notFound();
+    throw e;
+  }
+};
+
+export const createInvoice = async (payload: InvoiceCreatePayload) => {
+  try {
+    const { data } = await api.post<Invoice>('/invoices', payload);
+    return data;
+  } catch (e) {
+    console.log(e);
     throw e;
   }
 };
