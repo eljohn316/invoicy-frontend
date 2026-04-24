@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as NewInvoiceIndexRouteImport } from './routes/new-invoice/index'
 import { Route as homeLayoutRouteImport } from './routes/(home)/_layout'
 import { Route as homeLayoutIndexRouteImport } from './routes/(home)/_layout.index'
 import { Route as InvoicesupdateLayoutRouteImport } from './routes/invoices/(update)/_layout'
@@ -16,6 +17,11 @@ import { Route as InvoicesinvoiceLayoutRouteImport } from './routes/invoices/(in
 import { Route as InvoicesinvoiceLayoutInvoiceIdRouteImport } from './routes/invoices/(invoice)/_layout.$invoiceId'
 import { Route as InvoicesupdateLayoutInvoiceIdUpdateRouteImport } from './routes/invoices/(update)/_layout.$invoiceId.update'
 
+const NewInvoiceIndexRoute = NewInvoiceIndexRouteImport.update({
+  id: '/new-invoice/',
+  path: '/new-invoice/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const homeLayoutRoute = homeLayoutRouteImport.update({
   id: '/(home)/_layout',
   getParentRoute: () => rootRouteImport,
@@ -49,12 +55,14 @@ const InvoicesupdateLayoutInvoiceIdUpdateRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/new-invoice/': typeof NewInvoiceIndexRoute
   '/invoices': typeof InvoicesupdateLayoutRouteWithChildren
   '/': typeof homeLayoutIndexRoute
   '/invoices/$invoiceId': typeof InvoicesinvoiceLayoutInvoiceIdRoute
   '/invoices/$invoiceId/update': typeof InvoicesupdateLayoutInvoiceIdUpdateRoute
 }
 export interface FileRoutesByTo {
+  '/new-invoice': typeof NewInvoiceIndexRoute
   '/invoices': typeof InvoicesupdateLayoutRouteWithChildren
   '/': typeof homeLayoutIndexRoute
   '/invoices/$invoiceId': typeof InvoicesinvoiceLayoutInvoiceIdRoute
@@ -63,6 +71,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(home)/_layout': typeof homeLayoutRouteWithChildren
+  '/new-invoice/': typeof NewInvoiceIndexRoute
   '/invoices/(invoice)/_layout': typeof InvoicesinvoiceLayoutRouteWithChildren
   '/invoices/(update)/_layout': typeof InvoicesupdateLayoutRouteWithChildren
   '/(home)/_layout/': typeof homeLayoutIndexRoute
@@ -72,15 +81,22 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/new-invoice/'
     | '/invoices'
     | '/'
     | '/invoices/$invoiceId'
     | '/invoices/$invoiceId/update'
   fileRoutesByTo: FileRoutesByTo
-  to: '/invoices' | '/' | '/invoices/$invoiceId' | '/invoices/$invoiceId/update'
+  to:
+    | '/new-invoice'
+    | '/invoices'
+    | '/'
+    | '/invoices/$invoiceId'
+    | '/invoices/$invoiceId/update'
   id:
     | '__root__'
     | '/(home)/_layout'
+    | '/new-invoice/'
     | '/invoices/(invoice)/_layout'
     | '/invoices/(update)/_layout'
     | '/(home)/_layout/'
@@ -90,12 +106,20 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   homeLayoutRoute: typeof homeLayoutRouteWithChildren
+  NewInvoiceIndexRoute: typeof NewInvoiceIndexRoute
   InvoicesinvoiceLayoutRoute: typeof InvoicesinvoiceLayoutRouteWithChildren
   InvoicesupdateLayoutRoute: typeof InvoicesupdateLayoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/new-invoice/': {
+      id: '/new-invoice/'
+      path: '/new-invoice'
+      fullPath: '/new-invoice/'
+      preLoaderRoute: typeof NewInvoiceIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(home)/_layout': {
       id: '/(home)/_layout'
       path: ''
@@ -180,6 +204,7 @@ const InvoicesupdateLayoutRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   homeLayoutRoute: homeLayoutRouteWithChildren,
+  NewInvoiceIndexRoute: NewInvoiceIndexRoute,
   InvoicesinvoiceLayoutRoute: InvoicesinvoiceLayoutRouteWithChildren,
   InvoicesupdateLayoutRoute: InvoicesupdateLayoutRouteWithChildren,
 }

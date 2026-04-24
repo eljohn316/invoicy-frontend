@@ -1,4 +1,5 @@
 import '@/styles.css';
+import 'react-day-picker/style.css';
 
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
