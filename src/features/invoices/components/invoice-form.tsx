@@ -104,7 +104,7 @@ export function UpdateInvoiceForm({ invoice }: UpdateInvoiceFormProps) {
     },
   });
   const { dirtyFields } = useFormState({ control: form.control });
-  const { isPending, mutate: updateInvoice } = useUpdateInvoice();
+  const { isPending, mutate: updateInvoice } = useUpdateInvoice(invoice.id);
 
   function handleCancel() {
     navigate({ to: '/invoices/$invoiceId', params: { invoiceId: invoice.id } });

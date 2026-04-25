@@ -1,16 +1,12 @@
 import { toast } from 'sonner';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useNavigate, useParams } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
 import { updateInvoice } from '@/features/invoices/api';
 import type { InvoiceUpdatePayload } from '@/features/invoices/types/invoice';
 
-export function useUpdateInvoice() {
+export function useUpdateInvoice(invoiceId: string) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const invoiceId = useParams({
-    from: '/invoices/(update)/_layout/$invoiceId/update',
-    select: (params) => params.invoiceId,
-  });
 
   return useMutation({
     mutationFn: (payload: InvoiceUpdatePayload) => updateInvoice(invoiceId, payload),
@@ -21,7 +17,7 @@ export function useUpdateInvoice() {
         params: { invoiceId: updatedInvoice.id },
         replace: true,
       });
-      toast.success('Invoice successfully update');
+      toast.success('Invoice successfully updated');
     },
     onError: (e: Error) => {
       console.log(e);

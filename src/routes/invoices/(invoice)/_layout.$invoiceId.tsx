@@ -1,13 +1,15 @@
 import { Fragment } from 'react';
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { ExclamationTriangleIcon } from '@heroicons/react/20/solid';
-import { formatAmount, formatDate } from '@/lib/utils';
+import { cn, formatAmount, formatDate } from '@/lib/utils';
 import { InvoiceStatus } from '@/features/invoices/components/invoice-status';
 import type { Status } from '@/features/invoices/types/invoice';
 import { useInvoice, invoiceQueryOptions } from '@/features/invoices/hooks/use-invoice';
+import { useUpdateInvoice } from '@/features/invoices/hooks/use-update-invoice';
 import { Button } from '@/components/button';
 import { Skeleton } from '@/components/skeleton';
 import { Feedback, FeedbackDescription, FeedbackTitle } from '@/components/feedback';
+import { Spinner } from '@/components/spinner';
 
 export const Route = createFileRoute('/invoices/(invoice)/_layout/$invoiceId')({
   loader: ({ context, params }) => {
@@ -24,6 +26,11 @@ export const Route = createFileRoute('/invoices/(invoice)/_layout/$invoiceId')({
 function RouteComponent() {
   const { invoiceId } = Route.useParams();
   const { data: invoice } = useInvoice(invoiceId);
+  const { isPending, mutate: updateInvoice } = useUpdateInvoice(invoiceId);
+
+  function onUpdate(status: Status) {
+    updateInvoice({ status });
+  }
 
   return (
     <div className="divide-y divide-gray-200 *:py-8 *:first:pt-0 *:last:pb-0">
@@ -35,9 +42,32 @@ function RouteComponent() {
           className="link link-ghost ml-auto">
           Edit
         </Link>
-        {invoice.status !== 'paid' && (
-          <Button variant="primary" className="ml-3">
-            Mark as paid
+        {invoice.status === 'pending' && (
+          <Button
+            variant="primary"
+            className="relative ml-3"
+            onClick={() => onUpdate('paid')}
+            disabled={isPending}>
+            {isPending && (
+              <span className="absolute inset-0 inline-flex items-center justify-center">
+                <Spinner />
+              </span>
+            )}
+            <span className={cn(isPending && 'invisible')}>Mark as paid</span>
+          </Button>
+        )}
+        {invoice.status === 'paid' && (
+          <Button
+            variant="secondary"
+            className="relative ml-3"
+            onClick={() => onUpdate('pending')}
+            disabled={isPending}>
+            {isPending && (
+              <span className="absolute inset-0 inline-flex items-center justify-center">
+                <Spinner />
+              </span>
+            )}
+            <span className={cn(isPending && 'invisible')}>Mark as unpaid</span>
           </Button>
         )}
       </div>
