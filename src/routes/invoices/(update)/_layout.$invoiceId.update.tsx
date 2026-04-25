@@ -3,6 +3,7 @@ import { Button } from '@/components/button';
 import { Feedback, FeedbackDescription, FeedbackTitle } from '@/components/feedback';
 import { UpdateInvoiceForm } from '@/features/invoices/components/invoice-form';
 import { invoiceQueryOptions, useInvoice } from '@/features/invoices/hooks/use-invoice';
+import { InvoiceFormSkeleton } from '@/features/invoices/components/invoice-form-skeleton';
 
 export const Route = createFileRoute('/invoices/(update)/_layout/$invoiceId/update')({
   loader: ({ context, params }) => {
@@ -24,7 +25,7 @@ function RouteComponent() {
 }
 
 function PendingComponent() {
-  return <div>loading</div>;
+  return <InvoiceFormSkeleton />;
 }
 
 function NotFoundComponent() {
