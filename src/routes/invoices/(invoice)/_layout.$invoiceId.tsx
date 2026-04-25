@@ -10,6 +10,7 @@ import { Button } from '@/components/button';
 import { Skeleton } from '@/components/skeleton';
 import { Feedback, FeedbackDescription, FeedbackTitle } from '@/components/feedback';
 import { Spinner } from '@/components/spinner';
+import { InvoiceDeleteDialog } from '@/features/invoices/components/invoice-delete-dialog';
 
 export const Route = createFileRoute('/invoices/(invoice)/_layout/$invoiceId')({
   loader: ({ context, params }) => {
@@ -171,7 +172,7 @@ function RouteComponent() {
             </div>
           </div>
         </div>
-        <Button variant="danger">Delete invoice</Button>
+        <InvoiceDeleteDialog />
       </div>
     </div>
   );

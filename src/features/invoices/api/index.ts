@@ -40,3 +40,7 @@ export const updateInvoice = async (invoiceId: string, payload: InvoiceUpdatePay
   const { data } = await api.patch<Invoice>(`/invoices/${invoiceId}`, payload);
   return data;
 };
+
+export const deleteInvoice = async (invoiceId: string) => {
+  await api.delete(`/invoices/${invoiceId}`);
+};
