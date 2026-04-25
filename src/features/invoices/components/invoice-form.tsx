@@ -53,6 +53,16 @@ export function CreateInvoiceForm() {
     navigate({ to: '/' });
   }
 
+  function onSaveAsDraft() {
+    const payload = form.getValues();
+
+    createInvoice({
+      ...payload,
+      dateIssued: formatDate(payload.dateIssued, 'yyyy-MM-dd'),
+      status: 'draft',
+    });
+  }
+
   function onSubmit(payload: InvoiceFormPayload) {
     createInvoice({
       ...payload,
@@ -69,12 +79,17 @@ export function CreateInvoiceForm() {
         <Button variant="ghost" className="col-span-1" disabled={isPending} onClick={handleCancel}>
           Cancel
         </Button>
-        <Button variant="secondary" className="xs:ml-auto col-span-1" disabled={isPending}>
+        <Button
+          type="button"
+          variant="secondary"
+          className="xs:ml-auto col-span-1"
+          onClick={onSaveAsDraft}
+          disabled={isPending}>
           Save as Draft
         </Button>
         <Button
-          variant="primary"
           type="submit"
+          variant="primary"
           className="col-span-2 row-start-1"
           disabled={isPending}>
           {isPending && <Spinner />}
