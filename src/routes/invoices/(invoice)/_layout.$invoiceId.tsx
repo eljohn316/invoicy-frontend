@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { createFileRoute, useNavigate, useParams } from '@tanstack/react-router';
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { ExclamationTriangleIcon } from '@heroicons/react/20/solid';
 import { formatAmount, formatDate } from '@/lib/utils';
 import { InvoiceStatus } from '@/features/invoices/components/invoice-status';
@@ -22,15 +22,19 @@ export const Route = createFileRoute('/invoices/(invoice)/_layout/$invoiceId')({
 });
 
 function RouteComponent() {
-  const { data: invoice } = useInvoice();
+  const { invoiceId } = Route.useParams();
+  const { data: invoice } = useInvoice(invoiceId);
 
   return (
     <div className="divide-y divide-gray-200 *:py-8 *:first:pt-0 *:last:pb-0">
       <div className="flex items-center">
         <InvoiceStatus status={invoice.status as Status} />
-        <Button variant="ghost" className="ml-auto">
+        <Link
+          to="/invoices/$invoiceId/update"
+          params={{ invoiceId: invoice.id }}
+          className="link link-ghost ml-auto">
           Edit
-        </Button>
+        </Link>
         {invoice.status !== 'paid' && (
           <Button variant="primary" className="ml-3">
             Mark as paid
@@ -159,10 +163,7 @@ function PendingComponent() {
 
 function NotFoundComponent() {
   const navigate = useNavigate();
-  const invoiceId = useParams({
-    from: '/invoices/(invoice)/_layout/$invoiceId',
-    select: (params) => params.invoiceId,
-  });
+  const { invoiceId } = Route.useParams();
 
   return (
     <Feedback className="space-y-0">

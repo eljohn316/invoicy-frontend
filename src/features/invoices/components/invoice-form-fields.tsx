@@ -238,6 +238,7 @@ export function InvoiceFormFields({ form, isSubmitting }: InvoiceFormFieldsProps
                       mode="single"
                       selected={field.value}
                       onDayClick={(day) => handleSelectCalendarInput(day, field)}
+                      defaultMonth={field.value}
                       autoFocus
                     />
                   </PopoverContent>
@@ -254,7 +255,7 @@ export function InvoiceFormFields({ form, isSubmitting }: InvoiceFormFieldsProps
                 fieldId={field.name}
                 fieldError={fieldState.error}
                 className="xs:col-span-1 col-span-2 space-y-1">
-                <FieldLabel>Invoice Date</FieldLabel>
+                <FieldLabel>Payment Terms</FieldLabel>
                 <Select
                   name={field.name}
                   value={field.value}

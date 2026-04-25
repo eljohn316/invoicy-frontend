@@ -7,6 +7,7 @@ import type {
   InvoiceCreatePayload,
   InvoiceListItem,
   InvoiceSearchParam,
+  InvoiceUpdatePayload,
 } from '@/features/invoices/types/invoice';
 
 export const getAllInvoices = async ({ status }: InvoiceSearchParam) => {
@@ -31,11 +32,11 @@ export const getInvoice = async (invoiceId: string) => {
 };
 
 export const createInvoice = async (payload: InvoiceCreatePayload) => {
-  try {
-    const { data } = await api.post<Invoice>('/invoices', payload);
-    return data;
-  } catch (e) {
-    console.log(e);
-    throw e;
-  }
+  const { data } = await api.post<Invoice>('/invoices', payload);
+  return data;
+};
+
+export const updateInvoice = async (invoiceId: string, payload: InvoiceUpdatePayload) => {
+  const { data } = await api.patch<Invoice>(`/invoices/${invoiceId}`, payload);
+  return data;
 };

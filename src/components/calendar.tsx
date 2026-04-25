@@ -54,7 +54,7 @@ function Calendar({
           'group/day relative aspect-square size-full rounded-(--cell-radius) p-0 text-center font-semibold select-none [&:last-child[data-selected=true]_button]:rounded-r-(--cell-radius) hover:text-primary-500 data-[selected=true]:hover:text-white',
           defaultClassNames.day,
         ),
-        today: cn('rounded-(--cell-radius) data-[selected=true]:text-white'),
+        today: cn('rounded-(--cell-radius) text-primary-500 data-[selected=true]:text-white'),
         selected: cn('text-sm bg-primary-500 text-white rounded-full'),
 
         ...classNames,
