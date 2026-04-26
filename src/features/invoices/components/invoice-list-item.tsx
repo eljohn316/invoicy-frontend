@@ -1,7 +1,7 @@
 import type { InvoiceListItem } from '@/features/invoices/types/invoice';
 import { InvoiceStatus } from '@/features/invoices/components/invoice-status';
 import { Skeleton } from '@/components/skeleton';
-import { formatAmount, formatDate } from '@/lib/utils';
+import { formatAmount, formatDate, renderFallbackString } from '@/lib/utils';
 
 type InvoiceListItemProps = {
   invoice: InvoiceListItem;
@@ -15,7 +15,9 @@ export function InvoiceListItem({ invoice }: InvoiceListItemProps) {
       </p>
       <div className="xs:flex xs:items-center xs:justify-between xs:gap-x-4 xs:space-y-0 space-y-3">
         <div className="flex-1">
-          <p className="font-medium text-gray-900">{invoice.clientName}</p>
+          <p className="font-medium text-gray-900">
+            {renderFallbackString(invoice.clientName, { length: 20 })}
+          </p>
           <div className="flex items-baseline">
             <p className="text-sm text-gray-600">Due {formatDate(invoice.paymentDue)}</p>
             <p className="mx-2 text-gray-300">|</p>

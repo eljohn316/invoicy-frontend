@@ -1,16 +1,16 @@
 import { Fragment } from 'react';
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { ExclamationTriangleIcon } from '@heroicons/react/20/solid';
-import { cn, formatAmount, formatDate } from '@/lib/utils';
+import { cn, formatAmount, formatDate, renderFallbackString } from '@/lib/utils';
 import { InvoiceStatus } from '@/features/invoices/components/invoice-status';
 import type { Status } from '@/features/invoices/types/invoice';
 import { useInvoice, invoiceQueryOptions } from '@/features/invoices/hooks/use-invoice';
 import { useUpdateInvoice } from '@/features/invoices/hooks/use-update-invoice';
+import { InvoiceDeleteDialog } from '@/features/invoices/components/invoice-delete-dialog';
 import { Button } from '@/components/button';
 import { Skeleton } from '@/components/skeleton';
 import { Feedback, FeedbackDescription, FeedbackTitle } from '@/components/feedback';
 import { Spinner } from '@/components/spinner';
-import { InvoiceDeleteDialog } from '@/features/invoices/components/invoice-delete-dialog';
 
 export const Route = createFileRoute('/invoices/(invoice)/_layout/$invoiceId')({
   loader: ({ context, params }) => {
@@ -34,7 +34,7 @@ function RouteComponent() {
   }
 
   return (
-    <div className="divide-y divide-gray-200 *:py-8 *:first:pt-0 *:last:pb-0">
+    <div className="divide-y divide-gray-200 overflow-hidden *:py-8 *:first:pt-0 *:last:pb-0">
       <div className="flex items-center">
         <InvoiceStatus status={invoice.status as Status} />
         <Button
@@ -82,13 +82,15 @@ function RouteComponent() {
             <p className="text-primary-500 font-semibold underline-offset-2 group-hover:underline">
               #{invoice.id}
             </p>
-            <p className="font-semibold text-gray-900">{invoice.description}</p>
+            <p className="font-semibold text-gray-900">
+              {renderFallbackString(invoice.description, { length: 24 })}
+            </p>
           </div>
           <ul className="text-gray-900 sm:flex-none sm:text-end">
-            <li>{invoice.senderAddress.street}</li>
-            <li>{invoice.senderAddress.city}</li>
-            <li>{invoice.senderAddress.postCode}</li>
-            <li>{invoice.senderAddress.country}</li>
+            <li>{renderFallbackString(invoice.senderAddress.street, { length: 16 })}</li>
+            <li>{renderFallbackString(invoice.senderAddress.city, { length: 16 })}</li>
+            <li>{renderFallbackString(invoice.senderAddress.postCode, { length: 16 })}</li>
+            <li>{renderFallbackString(invoice.senderAddress.country, { length: 16 })}</li>
           </ul>
         </div>
         <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3">
@@ -105,18 +107,22 @@ function RouteComponent() {
           <div className="space-y-2">
             <p className="text-bunker-400 font-medium">Bill To</p>
             <div className="space-y-1">
-              <p className="font-semibold text-gray-900">{invoice.clientName}</p>
+              <p className="font-semibold text-gray-900">
+                {renderFallbackString(invoice.clientName, { length: 18 })}
+              </p>
               <ul className="text-gray-900">
-                <li>{invoice.clientAddress.street}</li>
-                <li>{invoice.clientAddress.city}</li>
-                <li>{invoice.clientAddress.postCode}</li>
-                <li>{invoice.clientAddress.country}</li>
+                <li>{renderFallbackString(invoice.clientAddress.street, { length: 14 })}</li>
+                <li>{renderFallbackString(invoice.clientAddress.city, { length: 14 })}</li>
+                <li>{renderFallbackString(invoice.clientAddress.postCode, { length: 14 })}</li>
+                <li>{renderFallbackString(invoice.clientAddress.country, { length: 14 })}</li>
               </ul>
             </div>
           </div>
           <div className="space-y-2">
             <p className="text-bunker-400 font-medium">Sent To</p>
-            <p className="font-semibold text-gray-900">{invoice.clientEmail}</p>
+            <p className="font-semibold text-gray-900">
+              {renderFallbackString(invoice.clientEmail, { length: 20 })}
+            </p>
           </div>
         </div>
         <div className="overflow-hidden rounded-lg">
@@ -125,7 +131,9 @@ function RouteComponent() {
               {invoice.items.map((item, idx) => (
                 <div key={idx} className="flex items-center justify-between">
                   <div className="space-y-1">
-                    <p className="font-semibold text-gray-900">{item.name}</p>
+                    <p className="font-semibold text-gray-900">
+                      {renderFallbackString(item.name, { length: 16 })}
+                    </p>
                     <p className="text-bunker-400 font-medium">
                       {item.quantity} x &pound; {formatAmount(item.price)}
                     </p>
@@ -141,7 +149,9 @@ function RouteComponent() {
               <div className="text-bunker-500 col-span-1 text-end">Total</div>
               {invoice.items.map((item, idx) => (
                 <Fragment key={idx}>
-                  <div className="col-span-2 font-semibold text-gray-900">{item.name}</div>
+                  <div className="col-span-2 font-semibold text-gray-900">
+                    {renderFallbackString(item.name, { length: 16 })}
+                  </div>
                   <div className="text-bunker-500 col-span-1 text-center font-medium">
                     {item.quantity}
                   </div>
