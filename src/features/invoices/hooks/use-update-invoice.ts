@@ -10,9 +10,9 @@ export function useUpdateInvoice(invoiceId: string) {
 
   return useMutation({
     mutationFn: (payload: InvoiceUpdatePayload) => updateInvoice(invoiceId, payload),
-    onSuccess: (updatedInvoice) => {
+    onSuccess: async (updatedInvoice) => {
       queryClient.setQueryData(['invoice', updatedInvoice.id], updatedInvoice);
-      navigate({
+      await navigate({
         to: '/invoices/$invoiceId',
         params: { invoiceId: updatedInvoice.id },
         replace: true,

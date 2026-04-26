@@ -31,7 +31,7 @@ export function InvoiceDeleteDialog() {
     deleteInvoice(invoiceId, {
       onSuccess: async () => {
         await queryClient.invalidateQueries({ queryKey: ['invoices', []] });
-        navigate({ to: '/', replace: true });
+        await navigate({ to: '/', replace: true });
         toast.success('Invoice successfully deleted');
       },
       onError: () => {

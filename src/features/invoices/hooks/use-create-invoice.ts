@@ -9,9 +9,13 @@ export function useCreateInvoice() {
 
   return useMutation({
     mutationFn: createInvoice,
-    onSuccess: (newInvoice) => {
+    onSuccess: async (newInvoice) => {
       queryClient.setQueryData(['invoice', newInvoice.id], newInvoice);
-      navigate({ to: '/invoices/$invoiceId', params: { invoiceId: newInvoice.id }, replace: true });
+      await navigate({
+        to: '/invoices/$invoiceId',
+        params: { invoiceId: newInvoice.id },
+        replace: true,
+      });
       toast.success('Invoice successfully created');
     },
     onError: (e: Error) => {
