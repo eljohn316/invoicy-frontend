@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router';
 import { Filter } from '@/components/filter';
+import { Button } from '@/components/button';
 
 export function InvoiceListHeader() {
   return (
@@ -10,9 +11,11 @@ export function InvoiceListHeader() {
           <div className="hidden sm:block">
             <Filter />
           </div>
-          <Link to="/new-invoice" className="link link-primary">
-            + New Invoice
-          </Link>
+          <Button
+            variant="primary"
+            render={<Link to="/new-invoice">+ New Invoice</Link>}
+            nativeButton={false}
+          />
         </div>
       </div>
       <div className="flex justify-end sm:hidden">

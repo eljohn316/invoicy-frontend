@@ -37,12 +37,16 @@ function RouteComponent() {
     <div className="divide-y divide-gray-200 *:py-8 *:first:pt-0 *:last:pb-0">
       <div className="flex items-center">
         <InvoiceStatus status={invoice.status as Status} />
-        <Link
-          to="/invoices/$invoiceId/update"
-          params={{ invoiceId: invoice.id }}
-          className="link link-ghost ml-auto">
-          Edit
-        </Link>
+        <Button
+          variant="ghost"
+          className="ml-auto"
+          render={
+            <Link to="/invoices/$invoiceId/update" params={{ invoiceId: invoice.id }}>
+              Edit
+            </Link>
+          }
+          nativeButton={false}
+        />
         {invoice.status === 'pending' && (
           <Button
             variant="primary"

@@ -1,22 +1,20 @@
 import * as z from 'zod';
+import { toast } from 'sonner';
+import { formatDate } from 'date-fns';
 import { useForm, useFormState } from 'react-hook-form';
-
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useNavigate } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { Button } from '@/components/button';
 import { Spinner } from '@/components/spinner';
 import { InvoiceFormFields } from '@/features/invoices/components/invoice-form-fields';
 import { InvoiceFormSchema } from '@/features/invoices/schemas';
 import { useCreateInvoice } from '@/features/invoices/hooks/use-create-invoice';
-import { formatDate } from 'date-fns';
-import type { Invoice, InvoiceUpdatePayload } from '../types/invoice';
-import { useUpdateInvoice } from '../hooks/use-update-invoice';
-import { toast } from 'sonner';
+import type { Invoice, InvoiceUpdatePayload } from '@/features/invoices/types/invoice';
+import { useUpdateInvoice } from '@/features/invoices/hooks/use-update-invoice';
 
 export type InvoiceFormPayload = z.infer<typeof InvoiceFormSchema>;
 
 export function CreateInvoiceForm() {
-  const navigate = useNavigate();
   const form = useForm<InvoiceFormPayload>({
     resolver: zodResolver(InvoiceFormSchema),
     defaultValues: {
@@ -49,10 +47,6 @@ export function CreateInvoiceForm() {
 
   const { isPending, mutate: createInvoice } = useCreateInvoice();
 
-  function handleCancel() {
-    navigate({ to: '/' });
-  }
-
   function onSaveAsDraft() {
     const payload = form.getValues();
 
@@ -76,9 +70,13 @@ export function CreateInvoiceForm() {
       <h3 className="text-3xl font-bold tracking-tighter text-gray-900">New Invoice</h3>
       <InvoiceFormFields form={form} isSubmitting={isPending} />
       <div className="xs:flex grid grid-cols-2 gap-4">
-        <Button variant="ghost" className="col-span-1" disabled={isPending} onClick={handleCancel}>
-          Cancel
-        </Button>
+        <Button
+          variant="ghost"
+          className="col-span-1"
+          disabled={isPending}
+          render={<Link to="/">Cancel</Link>}
+          nativeButton={false}
+        />
         <Button
           type="button"
           variant="secondary"
@@ -103,6 +101,7 @@ export function CreateInvoiceForm() {
 type UpdateInvoiceFormProps = {
   invoice: Invoice;
 };
+
 export function UpdateInvoiceForm({ invoice }: UpdateInvoiceFormProps) {
   const navigate = useNavigate();
   const form = useForm<InvoiceFormPayload>({
@@ -118,12 +117,9 @@ export function UpdateInvoiceForm({ invoice }: UpdateInvoiceFormProps) {
       paymentTerms: invoice.paymentTerms,
     },
   });
+
   const { dirtyFields } = useFormState({ control: form.control });
   const { isPending, mutate: updateInvoice } = useUpdateInvoice(invoice.id);
-
-  function handleCancel() {
-    navigate({ to: '/invoices/$invoiceId', params: { invoiceId: invoice.id } });
-  }
 
   function onSubmit(payload: InvoiceFormPayload) {
     const dirtyFieldNames = Object.keys(dirtyFields);
@@ -153,9 +149,17 @@ export function UpdateInvoiceForm({ invoice }: UpdateInvoiceFormProps) {
       </h3>
       <InvoiceFormFields form={form} isSubmitting={isPending} />
       <div className="xs:flex-row xs:justify-between flex flex-col-reverse gap-4">
-        <Button variant="ghost" className="col-span-1" disabled={isPending} onClick={handleCancel}>
-          Cancel
-        </Button>
+        <Button
+          variant="ghost"
+          className="col-span-1"
+          disabled={isPending}
+          render={
+            <Link to="/invoices/$invoiceId" params={{ invoiceId: invoice.id }}>
+              Cancel
+            </Link>
+          }
+          nativeButton={false}
+        />
         <Button
           variant="primary"
           type="submit"
