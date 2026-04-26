@@ -13,6 +13,7 @@ import { Feedback, FeedbackDescription, FeedbackTitle } from '@/components/feedb
 import { Spinner } from '@/components/spinner';
 
 export const Route = createFileRoute('/invoices/(invoice)/_layout/$invoiceId')({
+  head: ({ params }) => ({ meta: [{ title: `Invoice - ${params.invoiceId} | Invoice App` }] }),
   loader: ({ context, params }) => {
     const { queryClient } = context;
     const { invoiceId } = params;

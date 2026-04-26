@@ -6,6 +6,9 @@ import { invoiceQueryOptions, useInvoice } from '@/features/invoices/hooks/use-i
 import { InvoiceFormSkeleton } from '@/features/invoices/components/invoice-form-skeleton';
 
 export const Route = createFileRoute('/invoices/(update)/_layout/$invoiceId/update')({
+  head: ({ params }) => ({
+    meta: [{ title: `Update invoice - ${params.invoiceId} | Invoice App` }],
+  }),
   loader: ({ context, params }) => {
     const { queryClient } = context;
     const { invoiceId } = params;

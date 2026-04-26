@@ -3,6 +3,7 @@ import { ChevronLeftIcon } from '@heroicons/react/16/solid';
 import { CreateInvoiceForm } from '@/features/invoices/components/invoice-form';
 
 export const Route = createFileRoute('/new-invoice/')({
+  head: () => ({ meta: [{ title: 'New Invoice | Invoice App' }] }),
   component: RouteComponent,
 });
 

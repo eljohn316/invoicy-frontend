@@ -7,6 +7,7 @@ const InvoiceSearchParamSchema = z.object({
 });
 
 export const Route = createFileRoute('/(home)/_layout')({
+  head: () => ({ meta: [{ title: 'Home | Invoice App' }] }),
   validateSearch: InvoiceSearchParamSchema,
   search: {
     middlewares: [stripSearchParams({ status: [] })],
