@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as NewInvoiceIndexRouteImport } from './routes/new-invoice/index'
 import { Route as homeLayoutRouteImport } from './routes/(home)/_layout'
+import { Route as authLoginRouteImport } from './routes/(auth)/login'
 import { Route as homeLayoutIndexRouteImport } from './routes/(home)/_layout.index'
 import { Route as InvoicesupdateLayoutRouteImport } from './routes/invoices/(update)/_layout'
 import { Route as InvoicesinvoiceLayoutRouteImport } from './routes/invoices/(invoice)/_layout'
@@ -24,6 +25,11 @@ const NewInvoiceIndexRoute = NewInvoiceIndexRouteImport.update({
 } as any)
 const homeLayoutRoute = homeLayoutRouteImport.update({
   id: '/(home)/_layout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authLoginRoute = authLoginRouteImport.update({
+  id: '/(auth)/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const homeLayoutIndexRoute = homeLayoutIndexRouteImport.update({
@@ -55,6 +61,7 @@ const InvoicesupdateLayoutInvoiceIdUpdateRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/login': typeof authLoginRoute
   '/new-invoice/': typeof NewInvoiceIndexRoute
   '/invoices': typeof InvoicesupdateLayoutRouteWithChildren
   '/': typeof homeLayoutIndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/invoices/$invoiceId/update': typeof InvoicesupdateLayoutInvoiceIdUpdateRoute
 }
 export interface FileRoutesByTo {
+  '/login': typeof authLoginRoute
   '/new-invoice': typeof NewInvoiceIndexRoute
   '/invoices': typeof InvoicesupdateLayoutRouteWithChildren
   '/': typeof homeLayoutIndexRoute
@@ -70,6 +78,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/(auth)/login': typeof authLoginRoute
   '/(home)/_layout': typeof homeLayoutRouteWithChildren
   '/new-invoice/': typeof NewInvoiceIndexRoute
   '/invoices/(invoice)/_layout': typeof InvoicesinvoiceLayoutRouteWithChildren
@@ -81,6 +90,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/login'
     | '/new-invoice/'
     | '/invoices'
     | '/'
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/invoices/$invoiceId/update'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/login'
     | '/new-invoice'
     | '/invoices'
     | '/'
@@ -95,6 +106,7 @@ export interface FileRouteTypes {
     | '/invoices/$invoiceId/update'
   id:
     | '__root__'
+    | '/(auth)/login'
     | '/(home)/_layout'
     | '/new-invoice/'
     | '/invoices/(invoice)/_layout'
@@ -105,6 +117,7 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  authLoginRoute: typeof authLoginRoute
   homeLayoutRoute: typeof homeLayoutRouteWithChildren
   NewInvoiceIndexRoute: typeof NewInvoiceIndexRoute
   InvoicesinvoiceLayoutRoute: typeof InvoicesinvoiceLayoutRouteWithChildren
@@ -125,6 +138,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof homeLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/login': {
+      id: '/(auth)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(home)/_layout/': {
@@ -203,6 +223,7 @@ const InvoicesupdateLayoutRouteWithChildren =
   InvoicesupdateLayoutRoute._addFileChildren(InvoicesupdateLayoutRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
+  authLoginRoute: authLoginRoute,
   homeLayoutRoute: homeLayoutRouteWithChildren,
   NewInvoiceIndexRoute: NewInvoiceIndexRoute,
   InvoicesinvoiceLayoutRoute: InvoicesinvoiceLayoutRouteWithChildren,
