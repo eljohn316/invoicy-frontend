@@ -8,102 +8,101 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as NewInvoiceIndexRouteImport } from './routes/new-invoice/index'
-import { Route as homeLayoutRouteImport } from './routes/(home)/_layout'
-import { Route as authLoginRouteImport } from './routes/(auth)/login'
-import { Route as homeLayoutIndexRouteImport } from './routes/(home)/_layout.index'
-import { Route as InvoicesupdateLayoutRouteImport } from './routes/invoices/(update)/_layout'
-import { Route as InvoicesinvoiceLayoutRouteImport } from './routes/invoices/(invoice)/_layout'
-import { Route as InvoicesinvoiceLayoutInvoiceIdRouteImport } from './routes/invoices/(invoice)/_layout.$invoiceId'
-import { Route as InvoicesupdateLayoutInvoiceIdUpdateRouteImport } from './routes/invoices/(update)/_layout.$invoiceId.update'
+import { Route as rootRouteImport } from './routes/__root';
+import { Route as NewInvoiceIndexRouteImport } from './routes/new-invoice/index';
+import { Route as homeLayoutRouteImport } from './routes/(home)/_layout';
+import { Route as authLoginRouteImport } from './routes/(auth)/login';
+import { Route as homeLayoutIndexRouteImport } from './routes/(home)/_layout.index';
+import { Route as InvoicesupdateLayoutRouteImport } from './routes/invoices/(update)/_layout';
+import { Route as InvoicesinvoiceLayoutRouteImport } from './routes/invoices/(invoice)/_layout';
+import { Route as InvoicesinvoiceLayoutInvoiceIdRouteImport } from './routes/invoices/(invoice)/_layout.$invoiceId';
+import { Route as InvoicesupdateLayoutInvoiceIdUpdateRouteImport } from './routes/invoices/(update)/_layout.$invoiceId.update';
 
 const NewInvoiceIndexRoute = NewInvoiceIndexRouteImport.update({
   id: '/new-invoice/',
   path: '/new-invoice/',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const homeLayoutRoute = homeLayoutRouteImport.update({
   id: '/(home)/_layout',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const authLoginRoute = authLoginRouteImport.update({
   id: '/(auth)/login',
   path: '/login',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const homeLayoutIndexRoute = homeLayoutIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => homeLayoutRoute,
-} as any)
+} as any);
 const InvoicesupdateLayoutRoute = InvoicesupdateLayoutRouteImport.update({
   id: '/invoices/(update)/_layout',
   path: '/invoices',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const InvoicesinvoiceLayoutRoute = InvoicesinvoiceLayoutRouteImport.update({
   id: '/invoices/(invoice)/_layout',
   path: '/invoices',
   getParentRoute: () => rootRouteImport,
-} as any)
-const InvoicesinvoiceLayoutInvoiceIdRoute =
-  InvoicesinvoiceLayoutInvoiceIdRouteImport.update({
-    id: '/$invoiceId',
-    path: '/$invoiceId',
-    getParentRoute: () => InvoicesinvoiceLayoutRoute,
-  } as any)
+} as any);
+const InvoicesinvoiceLayoutInvoiceIdRoute = InvoicesinvoiceLayoutInvoiceIdRouteImport.update({
+  id: '/$invoiceId',
+  path: '/$invoiceId',
+  getParentRoute: () => InvoicesinvoiceLayoutRoute,
+} as any);
 const InvoicesupdateLayoutInvoiceIdUpdateRoute =
   InvoicesupdateLayoutInvoiceIdUpdateRouteImport.update({
     id: '/$invoiceId/update',
     path: '/$invoiceId/update',
     getParentRoute: () => InvoicesupdateLayoutRoute,
-  } as any)
+  } as any);
 
 export interface FileRoutesByFullPath {
-  '/login': typeof authLoginRoute
-  '/new-invoice/': typeof NewInvoiceIndexRoute
-  '/invoices': typeof InvoicesupdateLayoutRouteWithChildren
-  '/': typeof homeLayoutIndexRoute
-  '/invoices/$invoiceId': typeof InvoicesinvoiceLayoutInvoiceIdRoute
-  '/invoices/$invoiceId/update': typeof InvoicesupdateLayoutInvoiceIdUpdateRoute
+  '/login': typeof authLoginRoute;
+  '/new-invoice/': typeof NewInvoiceIndexRoute;
+  '/invoices': typeof InvoicesupdateLayoutRouteWithChildren;
+  '/': typeof homeLayoutIndexRoute;
+  '/invoices/$invoiceId': typeof InvoicesinvoiceLayoutInvoiceIdRoute;
+  '/invoices/$invoiceId/update': typeof InvoicesupdateLayoutInvoiceIdUpdateRoute;
 }
 export interface FileRoutesByTo {
-  '/login': typeof authLoginRoute
-  '/new-invoice': typeof NewInvoiceIndexRoute
-  '/invoices': typeof InvoicesupdateLayoutRouteWithChildren
-  '/': typeof homeLayoutIndexRoute
-  '/invoices/$invoiceId': typeof InvoicesinvoiceLayoutInvoiceIdRoute
-  '/invoices/$invoiceId/update': typeof InvoicesupdateLayoutInvoiceIdUpdateRoute
+  '/login': typeof authLoginRoute;
+  '/new-invoice': typeof NewInvoiceIndexRoute;
+  '/invoices': typeof InvoicesupdateLayoutRouteWithChildren;
+  '/': typeof homeLayoutIndexRoute;
+  '/invoices/$invoiceId': typeof InvoicesinvoiceLayoutInvoiceIdRoute;
+  '/invoices/$invoiceId/update': typeof InvoicesupdateLayoutInvoiceIdUpdateRoute;
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/(auth)/login': typeof authLoginRoute
-  '/(home)/_layout': typeof homeLayoutRouteWithChildren
-  '/new-invoice/': typeof NewInvoiceIndexRoute
-  '/invoices/(invoice)/_layout': typeof InvoicesinvoiceLayoutRouteWithChildren
-  '/invoices/(update)/_layout': typeof InvoicesupdateLayoutRouteWithChildren
-  '/(home)/_layout/': typeof homeLayoutIndexRoute
-  '/invoices/(invoice)/_layout/$invoiceId': typeof InvoicesinvoiceLayoutInvoiceIdRoute
-  '/invoices/(update)/_layout/$invoiceId/update': typeof InvoicesupdateLayoutInvoiceIdUpdateRoute
+  __root__: typeof rootRouteImport;
+  '/(auth)/login': typeof authLoginRoute;
+  '/(home)/_layout': typeof homeLayoutRouteWithChildren;
+  '/new-invoice/': typeof NewInvoiceIndexRoute;
+  '/invoices/(invoice)/_layout': typeof InvoicesinvoiceLayoutRouteWithChildren;
+  '/invoices/(update)/_layout': typeof InvoicesupdateLayoutRouteWithChildren;
+  '/(home)/_layout/': typeof homeLayoutIndexRoute;
+  '/invoices/(invoice)/_layout/$invoiceId': typeof InvoicesinvoiceLayoutInvoiceIdRoute;
+  '/invoices/(update)/_layout/$invoiceId/update': typeof InvoicesupdateLayoutInvoiceIdUpdateRoute;
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
+  fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
     | '/login'
     | '/new-invoice/'
     | '/invoices'
     | '/'
     | '/invoices/$invoiceId'
-    | '/invoices/$invoiceId/update'
-  fileRoutesByTo: FileRoutesByTo
+    | '/invoices/$invoiceId/update';
+  fileRoutesByTo: FileRoutesByTo;
   to:
     | '/login'
     | '/new-invoice'
     | '/invoices'
     | '/'
     | '/invoices/$invoiceId'
-    | '/invoices/$invoiceId/update'
+    | '/invoices/$invoiceId/update';
   id:
     | '__root__'
     | '/(auth)/login'
@@ -113,114 +112,111 @@ export interface FileRouteTypes {
     | '/invoices/(update)/_layout'
     | '/(home)/_layout/'
     | '/invoices/(invoice)/_layout/$invoiceId'
-    | '/invoices/(update)/_layout/$invoiceId/update'
-  fileRoutesById: FileRoutesById
+    | '/invoices/(update)/_layout/$invoiceId/update';
+  fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  authLoginRoute: typeof authLoginRoute
-  homeLayoutRoute: typeof homeLayoutRouteWithChildren
-  NewInvoiceIndexRoute: typeof NewInvoiceIndexRoute
-  InvoicesinvoiceLayoutRoute: typeof InvoicesinvoiceLayoutRouteWithChildren
-  InvoicesupdateLayoutRoute: typeof InvoicesupdateLayoutRouteWithChildren
+  authLoginRoute: typeof authLoginRoute;
+  homeLayoutRoute: typeof homeLayoutRouteWithChildren;
+  NewInvoiceIndexRoute: typeof NewInvoiceIndexRoute;
+  InvoicesinvoiceLayoutRoute: typeof InvoicesinvoiceLayoutRouteWithChildren;
+  InvoicesupdateLayoutRoute: typeof InvoicesupdateLayoutRouteWithChildren;
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/new-invoice/': {
-      id: '/new-invoice/'
-      path: '/new-invoice'
-      fullPath: '/new-invoice/'
-      preLoaderRoute: typeof NewInvoiceIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/new-invoice/';
+      path: '/new-invoice';
+      fullPath: '/new-invoice/';
+      preLoaderRoute: typeof NewInvoiceIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/(home)/_layout': {
-      id: '/(home)/_layout'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof homeLayoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/(home)/_layout';
+      path: '';
+      fullPath: '';
+      preLoaderRoute: typeof homeLayoutRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/(auth)/login': {
-      id: '/(auth)/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof authLoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/(auth)/login';
+      path: '/login';
+      fullPath: '/login';
+      preLoaderRoute: typeof authLoginRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/(home)/_layout/': {
-      id: '/(home)/_layout/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof homeLayoutIndexRouteImport
-      parentRoute: typeof homeLayoutRoute
-    }
+      id: '/(home)/_layout/';
+      path: '/';
+      fullPath: '/';
+      preLoaderRoute: typeof homeLayoutIndexRouteImport;
+      parentRoute: typeof homeLayoutRoute;
+    };
     '/invoices/(update)/_layout': {
-      id: '/invoices/(update)/_layout'
-      path: '/invoices'
-      fullPath: '/invoices'
-      preLoaderRoute: typeof InvoicesupdateLayoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/invoices/(update)/_layout';
+      path: '/invoices';
+      fullPath: '/invoices';
+      preLoaderRoute: typeof InvoicesupdateLayoutRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/invoices/(invoice)/_layout': {
-      id: '/invoices/(invoice)/_layout'
-      path: '/invoices'
-      fullPath: '/invoices'
-      preLoaderRoute: typeof InvoicesinvoiceLayoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/invoices/(invoice)/_layout';
+      path: '/invoices';
+      fullPath: '/invoices';
+      preLoaderRoute: typeof InvoicesinvoiceLayoutRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/invoices/(invoice)/_layout/$invoiceId': {
-      id: '/invoices/(invoice)/_layout/$invoiceId'
-      path: '/$invoiceId'
-      fullPath: '/invoices/$invoiceId'
-      preLoaderRoute: typeof InvoicesinvoiceLayoutInvoiceIdRouteImport
-      parentRoute: typeof InvoicesinvoiceLayoutRoute
-    }
+      id: '/invoices/(invoice)/_layout/$invoiceId';
+      path: '/$invoiceId';
+      fullPath: '/invoices/$invoiceId';
+      preLoaderRoute: typeof InvoicesinvoiceLayoutInvoiceIdRouteImport;
+      parentRoute: typeof InvoicesinvoiceLayoutRoute;
+    };
     '/invoices/(update)/_layout/$invoiceId/update': {
-      id: '/invoices/(update)/_layout/$invoiceId/update'
-      path: '/$invoiceId/update'
-      fullPath: '/invoices/$invoiceId/update'
-      preLoaderRoute: typeof InvoicesupdateLayoutInvoiceIdUpdateRouteImport
-      parentRoute: typeof InvoicesupdateLayoutRoute
-    }
+      id: '/invoices/(update)/_layout/$invoiceId/update';
+      path: '/$invoiceId/update';
+      fullPath: '/invoices/$invoiceId/update';
+      preLoaderRoute: typeof InvoicesupdateLayoutInvoiceIdUpdateRouteImport;
+      parentRoute: typeof InvoicesupdateLayoutRoute;
+    };
   }
 }
 
 interface homeLayoutRouteChildren {
-  homeLayoutIndexRoute: typeof homeLayoutIndexRoute
+  homeLayoutIndexRoute: typeof homeLayoutIndexRoute;
 }
 
 const homeLayoutRouteChildren: homeLayoutRouteChildren = {
   homeLayoutIndexRoute: homeLayoutIndexRoute,
-}
+};
 
-const homeLayoutRouteWithChildren = homeLayoutRoute._addFileChildren(
-  homeLayoutRouteChildren,
-)
+const homeLayoutRouteWithChildren = homeLayoutRoute._addFileChildren(homeLayoutRouteChildren);
 
 interface InvoicesinvoiceLayoutRouteChildren {
-  InvoicesinvoiceLayoutInvoiceIdRoute: typeof InvoicesinvoiceLayoutInvoiceIdRoute
+  InvoicesinvoiceLayoutInvoiceIdRoute: typeof InvoicesinvoiceLayoutInvoiceIdRoute;
 }
 
 const InvoicesinvoiceLayoutRouteChildren: InvoicesinvoiceLayoutRouteChildren = {
   InvoicesinvoiceLayoutInvoiceIdRoute: InvoicesinvoiceLayoutInvoiceIdRoute,
-}
+};
 
-const InvoicesinvoiceLayoutRouteWithChildren =
-  InvoicesinvoiceLayoutRoute._addFileChildren(
-    InvoicesinvoiceLayoutRouteChildren,
-  )
+const InvoicesinvoiceLayoutRouteWithChildren = InvoicesinvoiceLayoutRoute._addFileChildren(
+  InvoicesinvoiceLayoutRouteChildren,
+);
 
 interface InvoicesupdateLayoutRouteChildren {
-  InvoicesupdateLayoutInvoiceIdUpdateRoute: typeof InvoicesupdateLayoutInvoiceIdUpdateRoute
+  InvoicesupdateLayoutInvoiceIdUpdateRoute: typeof InvoicesupdateLayoutInvoiceIdUpdateRoute;
 }
 
 const InvoicesupdateLayoutRouteChildren: InvoicesupdateLayoutRouteChildren = {
-  InvoicesupdateLayoutInvoiceIdUpdateRoute:
-    InvoicesupdateLayoutInvoiceIdUpdateRoute,
-}
+  InvoicesupdateLayoutInvoiceIdUpdateRoute: InvoicesupdateLayoutInvoiceIdUpdateRoute,
+};
 
-const InvoicesupdateLayoutRouteWithChildren =
-  InvoicesupdateLayoutRoute._addFileChildren(InvoicesupdateLayoutRouteChildren)
+const InvoicesupdateLayoutRouteWithChildren = InvoicesupdateLayoutRoute._addFileChildren(
+  InvoicesupdateLayoutRouteChildren,
+);
 
 const rootRouteChildren: RootRouteChildren = {
   authLoginRoute: authLoginRoute,
@@ -228,7 +224,7 @@ const rootRouteChildren: RootRouteChildren = {
   NewInvoiceIndexRoute: NewInvoiceIndexRoute,
   InvoicesinvoiceLayoutRoute: InvoicesinvoiceLayoutRouteWithChildren,
   InvoicesupdateLayoutRoute: InvoicesupdateLayoutRouteWithChildren,
-}
+};
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();

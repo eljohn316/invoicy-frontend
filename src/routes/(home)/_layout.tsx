@@ -1,6 +1,7 @@
 import { z } from 'zod';
-import { createFileRoute, Outlet, stripSearchParams } from '@tanstack/react-router';
+import { createFileRoute, Outlet, redirect, stripSearchParams } from '@tanstack/react-router';
 import { InvoiceListHeader } from '@/features/invoices/components/invoice-list-header';
+import { isLoggedIn } from '@/features/auth/hooks/use-auth';
 
 const InvoiceSearchParamSchema = z.object({
   status: z.array(z.string()).default([]),
@@ -8,6 +9,11 @@ const InvoiceSearchParamSchema = z.object({
 
 export const Route = createFileRoute('/(home)/_layout')({
   head: () => ({ meta: [{ title: 'Home | Invoice App' }] }),
+  beforeLoad: () => {
+    if (!isLoggedIn()) {
+      throw redirect({ to: '/login' });
+    }
+  },
   validateSearch: InvoiceSearchParamSchema,
   search: {
     middlewares: [stripSearchParams({ status: [] })],

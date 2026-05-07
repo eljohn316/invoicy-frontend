@@ -7,8 +7,20 @@ import { Field, FieldError, FieldLabel } from '@/components/fields';
 import { Input } from '@/components/input';
 import { Spinner } from '@/components/spinner';
 import { Alert } from '@/components/alert';
-import { useLogin } from '@/features/auth/hooks/use-login';
 import { LoginFormSchema } from '@/features/auth/schemas';
+import { useAuth } from '../hooks/use-auth';
+
+const getSavedField = (fieldName: string) => {
+  return localStorage.getItem(fieldName);
+};
+
+const saveField = (fieldName: string, value: string) => {
+  localStorage.setItem(fieldName, value);
+};
+
+const removeSavedField = (fieldName: string) => {
+  localStorage.removeItem(fieldName);
+};
 
 export type LoginFormPayload = z.infer<typeof LoginFormSchema>;
 
@@ -16,25 +28,27 @@ export function LoginForm() {
   const form = useForm<LoginFormPayload>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
-      email: localStorage.getItem('email') ?? '',
-      password: localStorage.getItem('password') ?? '',
-      rememberMe: localStorage.getItem('rememberMe')
-        ? JSON.parse(localStorage.getItem('rememberMe') as string)
+      email: getSavedField('email') ?? '',
+      password: getSavedField('password') ?? '',
+      rememberMe: getSavedField('rememberMe')
+        ? JSON.parse(getSavedField('rememberMe') as string)
         : false,
     },
   });
 
-  const { isPending, mutate: login, error } = useLogin();
+  const {
+    loginMutation: { isPending, mutate: login, error },
+  } = useAuth();
 
   function handleRememberMe(rememberMe: boolean) {
     if (rememberMe) {
-      localStorage.setItem('email', form.getValues('email'));
-      localStorage.setItem('password', form.getValues('password'));
-      localStorage.setItem('rememberMe', JSON.stringify(rememberMe));
+      saveField('email', form.getValues('email'));
+      saveField('password', form.getValues('password'));
+      saveField('rememberMe', JSON.stringify(rememberMe));
     } else {
-      localStorage.removeItem('email');
-      localStorage.removeItem('password');
-      localStorage.removeItem('rememberMe');
+      removeSavedField('email');
+      removeSavedField('password');
+      removeSavedField('rememberMe');
     }
   }
 
