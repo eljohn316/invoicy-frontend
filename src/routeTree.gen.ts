@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root';
 import { Route as NewInvoiceIndexRouteImport } from './routes/new-invoice/index';
 import { Route as homeLayoutRouteImport } from './routes/(home)/_layout';
+import { Route as authSignUpRouteImport } from './routes/(auth)/sign-up';
 import { Route as authLoginRouteImport } from './routes/(auth)/login';
 import { Route as homeLayoutIndexRouteImport } from './routes/(home)/_layout.index';
 import { Route as InvoicesupdateLayoutRouteImport } from './routes/invoices/(update)/_layout';
@@ -25,6 +26,11 @@ const NewInvoiceIndexRoute = NewInvoiceIndexRouteImport.update({
 } as any);
 const homeLayoutRoute = homeLayoutRouteImport.update({
   id: '/(home)/_layout',
+  getParentRoute: () => rootRouteImport,
+} as any);
+const authSignUpRoute = authSignUpRouteImport.update({
+  id: '/(auth)/sign-up',
+  path: '/sign-up',
   getParentRoute: () => rootRouteImport,
 } as any);
 const authLoginRoute = authLoginRouteImport.update({
@@ -61,6 +67,7 @@ const InvoicesupdateLayoutInvoiceIdUpdateRoute =
 
 export interface FileRoutesByFullPath {
   '/login': typeof authLoginRoute;
+  '/sign-up': typeof authSignUpRoute;
   '/new-invoice/': typeof NewInvoiceIndexRoute;
   '/invoices': typeof InvoicesupdateLayoutRouteWithChildren;
   '/': typeof homeLayoutIndexRoute;
@@ -69,6 +76,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/login': typeof authLoginRoute;
+  '/sign-up': typeof authSignUpRoute;
   '/new-invoice': typeof NewInvoiceIndexRoute;
   '/invoices': typeof InvoicesupdateLayoutRouteWithChildren;
   '/': typeof homeLayoutIndexRoute;
@@ -78,6 +86,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport;
   '/(auth)/login': typeof authLoginRoute;
+  '/(auth)/sign-up': typeof authSignUpRoute;
   '/(home)/_layout': typeof homeLayoutRouteWithChildren;
   '/new-invoice/': typeof NewInvoiceIndexRoute;
   '/invoices/(invoice)/_layout': typeof InvoicesinvoiceLayoutRouteWithChildren;
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
     | '/login'
+    | '/sign-up'
     | '/new-invoice/'
     | '/invoices'
     | '/'
@@ -98,6 +108,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo;
   to:
     | '/login'
+    | '/sign-up'
     | '/new-invoice'
     | '/invoices'
     | '/'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/(auth)/login'
+    | '/(auth)/sign-up'
     | '/(home)/_layout'
     | '/new-invoice/'
     | '/invoices/(invoice)/_layout'
@@ -117,6 +129,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   authLoginRoute: typeof authLoginRoute;
+  authSignUpRoute: typeof authSignUpRoute;
   homeLayoutRoute: typeof homeLayoutRouteWithChildren;
   NewInvoiceIndexRoute: typeof NewInvoiceIndexRoute;
   InvoicesinvoiceLayoutRoute: typeof InvoicesinvoiceLayoutRouteWithChildren;
@@ -137,6 +150,13 @@ declare module '@tanstack/react-router' {
       path: '';
       fullPath: '';
       preLoaderRoute: typeof homeLayoutRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    '/(auth)/sign-up': {
+      id: '/(auth)/sign-up';
+      path: '/sign-up';
+      fullPath: '/sign-up';
+      preLoaderRoute: typeof authSignUpRouteImport;
       parentRoute: typeof rootRouteImport;
     };
     '/(auth)/login': {
@@ -220,6 +240,7 @@ const InvoicesupdateLayoutRouteWithChildren = InvoicesupdateLayoutRoute._addFile
 
 const rootRouteChildren: RootRouteChildren = {
   authLoginRoute: authLoginRoute,
+  authSignUpRoute: authSignUpRoute,
   homeLayoutRoute: homeLayoutRouteWithChildren,
   NewInvoiceIndexRoute: NewInvoiceIndexRoute,
   InvoicesinvoiceLayoutRoute: InvoicesinvoiceLayoutRouteWithChildren,

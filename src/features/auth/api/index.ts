@@ -1,6 +1,7 @@
 import { isAxiosError } from 'axios';
 import { api } from '@/api';
 import type { User, UserLoginPayload, UserLoginResponse } from '@/features/auth/types';
+import type { SignUpPayload } from '@/features/auth/components/sign-up-form';
 
 export const login = async ({ email, password }: UserLoginPayload) => {
   try {
@@ -9,6 +10,20 @@ export const login = async ({ email, password }: UserLoginPayload) => {
     formData.append('password', password);
 
     const { data } = await api.post<UserLoginResponse>('/users/token', formData);
+    return data;
+  } catch (err) {
+    if (isAxiosError(err)) {
+      if (err.code === 'ERR_BAD_REQUEST') {
+        throw new Error(err.response?.data.detail);
+      }
+    }
+    throw err;
+  }
+};
+
+export const signUp = async (payload: Omit<SignUpPayload, 'confirmPassword'>) => {
+  try {
+    const { data } = await api.post<Omit<User, 'email'>>('/users', payload);
     return data;
   } catch (err) {
     if (isAxiosError(err)) {

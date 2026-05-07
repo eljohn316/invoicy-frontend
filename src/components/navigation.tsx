@@ -29,7 +29,7 @@ export function Navigation() {
             Login
           </Link>
           <Link
-            to="/login"
+            to="/sign-up"
             className="text-bunker-100 text-[15px] font-medium hover:underline hover:underline-offset-2">
             Sign up
           </Link>

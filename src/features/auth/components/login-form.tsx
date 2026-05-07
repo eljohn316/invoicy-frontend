@@ -99,9 +99,9 @@ export function LoginForm() {
         <p className="text-bunker-500 text-center text-[15px]">
           Don't have an account yet?{' '}
           <Link
-            to="/login"
+            to="/sign-up"
             className="text-primary-500 font-semibold hover:underline hover:underline-offset-2">
-            Create account
+            Sign up
           </Link>
         </p>
       </div>

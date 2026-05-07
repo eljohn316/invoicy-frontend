@@ -1,7 +1,7 @@
 import { toast } from 'sonner';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
-import { getCurrentUser, login } from '@/features/auth/api';
+import { getCurrentUser, login, signUp } from '@/features/auth/api';
 import type { User, UserLoginPayload } from '@/features/auth/types';
 
 const getAccessToken = () => {
@@ -58,6 +58,14 @@ function useAuth() {
     },
   });
 
+  const signUpMutation = useMutation({
+    mutationFn: signUp,
+    onSuccess: async () => {
+      await navigate({ to: '/login', replace: true });
+      toast.success('Successfully signed up');
+    },
+  });
+
   const logout = async () => {
     removeAccessToken();
     queryClient.setQueryData(['current-user'], null);
@@ -69,6 +77,7 @@ function useAuth() {
     user,
     isFetchingUser,
     loginMutation,
+    signUpMutation,
     logout,
   };
 }
