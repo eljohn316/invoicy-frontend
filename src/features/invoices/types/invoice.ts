@@ -51,7 +51,7 @@ export type Invoice = {
 
 export type InvoiceCreatePayload = Omit<
   Invoice,
-  'id' | 'total' | 'createdAt' | 'paymentDue' | 'items' | 'dateIssued'
+  'id' | 'total' | 'createdAt' | 'paymentDue' | 'items' | 'dateIssued' | 'poster'
 > & { items: Omit<Item, 'total'>[]; dateIssued: string };
 
 export type InvoiceUpdatePayload = Partial<InvoiceCreatePayload>;

@@ -136,8 +136,8 @@ function RouteComponent() {
           <div className="xs:col-span-1 col-span-2 space-y-2">
             <p className="text-bunker-400 font-medium">Posted by</p>
             <p className="font-semibold text-gray-900">
-              {renderFallbackString(invoice.poster.fullName, { length: 20 })}{' '}
-              <span className="text-gray-400">(You)</span>
+              {renderFallbackString(invoice.poster.fullName, { length: 20 })}
+              {invoice.poster.id === user?.id && <span className="text-gray-400">(You)</span>}
             </p>
           </div>
           <div className="xs:col-span-1 col-span-2 space-y-2">

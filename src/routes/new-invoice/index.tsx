@@ -1,9 +1,15 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute, Link, redirect } from '@tanstack/react-router';
 import { ChevronLeftIcon } from '@heroicons/react/16/solid';
 import { CreateInvoiceForm } from '@/features/invoices/components/invoice-form';
+import { isLoggedIn } from '@/features/auth/hooks/use-auth';
 
 export const Route = createFileRoute('/new-invoice/')({
   head: () => ({ meta: [{ title: 'New Invoice | Invoice App' }] }),
+  beforeLoad: () => {
+    if (!isLoggedIn()) {
+      throw redirect({ to: '/login', replace: true });
+    }
+  },
   component: RouteComponent,
 });
 

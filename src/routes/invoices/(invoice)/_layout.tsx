@@ -1,7 +1,13 @@
-import { createFileRoute, Link, Outlet } from '@tanstack/react-router';
+import { createFileRoute, Link, Outlet, redirect } from '@tanstack/react-router';
 import { ChevronLeftIcon } from '@heroicons/react/16/solid';
+import { isLoggedIn } from '@/features/auth/hooks/use-auth';
 
 export const Route = createFileRoute('/invoices/(invoice)/_layout')({
+  beforeLoad: () => {
+    if (!isLoggedIn()) {
+      throw redirect({ to: '/login', replace: true });
+    }
+  },
   component: RouteComponent,
 });
 

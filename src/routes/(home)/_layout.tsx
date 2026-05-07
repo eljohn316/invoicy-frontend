@@ -11,7 +11,7 @@ export const Route = createFileRoute('/(home)/_layout')({
   head: () => ({ meta: [{ title: 'Home | Invoice App' }] }),
   beforeLoad: () => {
     if (!isLoggedIn()) {
-      throw redirect({ to: '/login' });
+      throw redirect({ to: '/login', replace: true });
     }
   },
   validateSearch: InvoiceSearchParamSchema,
