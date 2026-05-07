@@ -8,18 +8,10 @@ import { Input } from '@/components/input';
 import { Spinner } from '@/components/spinner';
 import { Alert } from '@/components/alert';
 import { LoginFormSchema } from '@/features/auth/schemas';
-import { useAuth } from '../hooks/use-auth';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 
 const getSavedField = (fieldName: string) => {
   return localStorage.getItem(fieldName);
-};
-
-const saveField = (fieldName: string, value: string) => {
-  localStorage.setItem(fieldName, value);
-};
-
-const removeSavedField = (fieldName: string) => {
-  localStorage.removeItem(fieldName);
 };
 
 export type LoginFormPayload = z.infer<typeof LoginFormSchema>;
@@ -28,8 +20,8 @@ export function LoginForm() {
   const form = useForm<LoginFormPayload>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
-      email: getSavedField('email') ?? '',
-      password: getSavedField('password') ?? '',
+      email: getSavedField('rememberMeEmail') ?? '',
+      password: getSavedField('rememberMePassword') ?? '',
       rememberMe: getSavedField('rememberMe')
         ? JSON.parse(getSavedField('rememberMe') as string)
         : false,
@@ -40,24 +32,8 @@ export function LoginForm() {
     loginMutation: { isPending, mutate: login, error },
   } = useAuth();
 
-  function handleRememberMe(rememberMe: boolean) {
-    if (rememberMe) {
-      saveField('email', form.getValues('email'));
-      saveField('password', form.getValues('password'));
-      saveField('rememberMe', JSON.stringify(rememberMe));
-    } else {
-      removeSavedField('email');
-      removeSavedField('password');
-      removeSavedField('rememberMe');
-    }
-  }
-
   function onSubmit(payload: LoginFormPayload) {
-    login(payload, {
-      onSuccess: () => {
-        handleRememberMe(payload.rememberMe);
-      },
-    });
+    login(payload);
   }
 
   return (

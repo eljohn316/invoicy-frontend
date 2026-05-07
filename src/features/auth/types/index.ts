@@ -10,6 +10,7 @@ export type User = {
 export type UserLoginPayload = {
   email: string;
   password: string;
+  rememberMe: boolean;
 };
 
 export type UserLoginResponse = {

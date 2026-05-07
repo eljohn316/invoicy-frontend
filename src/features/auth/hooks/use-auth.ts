@@ -2,7 +2,7 @@ import { toast } from 'sonner';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import { getCurrentUser, login } from '@/features/auth/api';
-import type { User } from '@/features/auth/types';
+import type { User, UserLoginPayload } from '@/features/auth/types';
 
 const getAccessToken = () => {
   return localStorage.getItem('accessToken');
@@ -21,11 +21,27 @@ const isLoggedIn = () => {
   return accessToken !== null;
 };
 
+const savedFields = (variables: UserLoginPayload) => {
+  if (variables.rememberMe) {
+    localStorage.setItem('rememberMeEmail', variables.email);
+    localStorage.setItem('rememberMePassword', variables.password);
+    localStorage.setItem('rememberMe', JSON.stringify(variables.rememberMe));
+  } else {
+    localStorage.removeItem('rememberMeEmail');
+    localStorage.removeItem('rememberMePassword');
+    localStorage.removeItem('rememberMe');
+  }
+};
+
 function useAuth() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { data: user, refetch } = useQuery<User | null, Error>({
+  const {
+    data: user,
+    isFetching: isFetchingUser,
+    refetch,
+  } = useQuery<User | null, Error>({
     queryKey: ['current-user'],
     queryFn: getCurrentUser,
     enabled: isLoggedIn(),
@@ -33,8 +49,9 @@ function useAuth() {
 
   const loginMutation = useMutation({
     mutationFn: login,
-    onSuccess: async ({ accessToken }) => {
+    onSuccess: async ({ accessToken }, variables) => {
       saveAccessToken(accessToken);
+      savedFields(variables);
       await refetch();
       await navigate({ to: '/', replace: true });
       toast.success('Successfully logged in');
@@ -50,6 +67,7 @@ function useAuth() {
 
   return {
     user,
+    isFetchingUser,
     loginMutation,
     logout,
   };
