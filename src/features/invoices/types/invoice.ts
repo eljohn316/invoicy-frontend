@@ -40,6 +40,13 @@ export type Invoice = {
   createdAt: Date;
   paymentDue: Date;
   total: number;
+  poster: {
+    id: number;
+    profileImage: string;
+    firstName: string;
+    lastName: string;
+    fullName: string;
+  };
 };
 
 export type InvoiceCreatePayload = Omit<

@@ -2,6 +2,7 @@ import { isAxiosError } from 'axios';
 import { api } from '@/api';
 import type { User, UserLoginPayload, UserLoginResponse } from '@/features/auth/types';
 import type { SignUpPayload } from '@/features/auth/components/sign-up-form';
+import { removeAccessToken } from '@/features/auth/hooks/use-auth';
 
 export const login = async ({ email, password }: UserLoginPayload) => {
   try {
@@ -42,6 +43,7 @@ export const getCurrentUser = async () => {
   } catch (err) {
     if (isAxiosError(err)) {
       if (err.code === 'ERR_BAD_REQUEST') {
+        removeAccessToken();
         throw new Error(err.response?.data.detail);
       }
     }

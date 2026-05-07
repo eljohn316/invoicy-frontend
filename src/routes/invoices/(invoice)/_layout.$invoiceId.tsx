@@ -1,12 +1,13 @@
 import { Fragment } from 'react';
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { ExclamationTriangleIcon } from '@heroicons/react/20/solid';
-import { cn, formatAmount, formatDate, renderFallbackString } from '@/lib/utils';
+import { cn, formatAmount, formatDate, formatDateTime, renderFallbackString } from '@/lib/utils';
 import { InvoiceStatus } from '@/features/invoices/components/invoice-status';
 import type { Status } from '@/features/invoices/types/invoice';
 import { useInvoice, invoiceQueryOptions } from '@/features/invoices/hooks/use-invoice';
 import { useUpdateInvoice } from '@/features/invoices/hooks/use-update-invoice';
 import { InvoiceDeleteDialog } from '@/features/invoices/components/invoice-delete-dialog';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { Button } from '@/components/button';
 import { Skeleton } from '@/components/skeleton';
 import { Feedback, FeedbackDescription, FeedbackTitle } from '@/components/feedback';
@@ -25,57 +26,64 @@ export const Route = createFileRoute('/invoices/(invoice)/_layout/$invoiceId')({
   errorComponent: ErrorComponent,
 });
 
+function Actions({ status }: { status: Status }) {
+  const { invoiceId } = Route.useParams();
+  const { isPending, mutate: updateInvoice } = useUpdateInvoice(invoiceId);
+
+  return (
+    <>
+      <Button
+        variant="ghost"
+        className="ml-auto"
+        render={
+          <Link to="/invoices/$invoiceId/update" params={{ invoiceId }}>
+            Edit
+          </Link>
+        }
+        nativeButton={false}
+      />
+      {status === 'pending' && (
+        <Button
+          variant="primary"
+          className="relative ml-3"
+          onClick={() => updateInvoice({ status: 'paid' })}
+          disabled={isPending}>
+          {isPending && (
+            <span className="absolute inset-0 inline-flex items-center justify-center">
+              <Spinner />
+            </span>
+          )}
+          <span className={cn(isPending && 'invisible')}>Mark as paid</span>
+        </Button>
+      )}
+      {status === 'paid' && (
+        <Button
+          variant="secondary"
+          className="relative ml-3"
+          onClick={() => updateInvoice({ status: 'pending' })}
+          disabled={isPending}>
+          {isPending && (
+            <span className="absolute inset-0 inline-flex items-center justify-center">
+              <Spinner />
+            </span>
+          )}
+          <span className={cn(isPending && 'invisible')}>Mark as unpaid</span>
+        </Button>
+      )}
+    </>
+  );
+}
+
 function RouteComponent() {
   const { invoiceId } = Route.useParams();
   const { data: invoice } = useInvoice(invoiceId);
-  const { isPending, mutate: updateInvoice } = useUpdateInvoice(invoiceId);
-
-  function onUpdate(status: Status) {
-    updateInvoice({ status });
-  }
+  const { user } = useAuth();
 
   return (
     <div className="divide-y divide-gray-200 overflow-hidden *:py-8 *:first:pt-0 *:last:pb-0">
       <div className="flex items-center">
         <InvoiceStatus status={invoice.status as Status} />
-        <Button
-          variant="ghost"
-          className="ml-auto"
-          render={
-            <Link to="/invoices/$invoiceId/update" params={{ invoiceId: invoice.id }}>
-              Edit
-            </Link>
-          }
-          nativeButton={false}
-        />
-        {invoice.status === 'pending' && (
-          <Button
-            variant="primary"
-            className="relative ml-3"
-            onClick={() => onUpdate('paid')}
-            disabled={isPending}>
-            {isPending && (
-              <span className="absolute inset-0 inline-flex items-center justify-center">
-                <Spinner />
-              </span>
-            )}
-            <span className={cn(isPending && 'invisible')}>Mark as paid</span>
-          </Button>
-        )}
-        {invoice.status === 'paid' && (
-          <Button
-            variant="secondary"
-            className="relative ml-3"
-            onClick={() => onUpdate('pending')}
-            disabled={isPending}>
-            {isPending && (
-              <span className="absolute inset-0 inline-flex items-center justify-center">
-                <Spinner />
-              </span>
-            )}
-            <span className={cn(isPending && 'invisible')}>Mark as unpaid</span>
-          </Button>
-        )}
+        {invoice.poster.id === user?.id && <Actions status={invoice.status} />}
       </div>
       <div className="space-y-14">
         <div className="space-y-6 sm:flex sm:space-y-0 sm:gap-x-4">
@@ -94,7 +102,7 @@ function RouteComponent() {
             <li>{renderFallbackString(invoice.senderAddress.country, { length: 16 })}</li>
           </ul>
         </div>
-        <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3">
+        <div className="xs:grid-cols-3 grid grid-cols-2 gap-x-4 gap-y-8">
           <div className="space-y-8">
             <div className="space-y-2">
               <p className="text-bunker-400 font-medium">Invoice Date</p>
@@ -119,10 +127,23 @@ function RouteComponent() {
               </ul>
             </div>
           </div>
-          <div className="space-y-2">
+          <div className="xs:col-span-1 col-span-2 space-y-2">
             <p className="text-bunker-400 font-medium">Sent To</p>
             <p className="font-semibold text-gray-900">
               {renderFallbackString(invoice.clientEmail, { length: 20 })}
+            </p>
+          </div>
+          <div className="xs:col-span-1 col-span-2 space-y-2">
+            <p className="text-bunker-400 font-medium">Posted by</p>
+            <p className="font-semibold text-gray-900">
+              {renderFallbackString(invoice.poster.fullName, { length: 20 })}{' '}
+              <span className="text-gray-400">(You)</span>
+            </p>
+          </div>
+          <div className="xs:col-span-1 col-span-2 space-y-2">
+            <p className="text-bunker-400 font-medium">Posted on</p>
+            <p className="font-semibold text-gray-900">
+              {renderFallbackString(formatDateTime(invoice.createdAt), { length: 20 })}
             </p>
           </div>
         </div>
@@ -174,21 +195,23 @@ function RouteComponent() {
           </div>
         </div>
       </div>
-      <div className="space-y-6">
-        <div className="border-l-4 border-red-400 bg-red-50 p-4">
-          <div className="flex">
-            <div className="shrink-0">
-              <ExclamationTriangleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
-            </div>
-            <div className="ml-3">
-              <p className="text-red-700">
-                <span className="font-medium">Warning!</span> This action is irreversible.
-              </p>
+      {invoice.poster.id === user?.id && (
+        <div className="space-y-6">
+          <div className="border-l-4 border-red-400 bg-red-50 p-4">
+            <div className="flex">
+              <div className="shrink-0">
+                <ExclamationTriangleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
+              </div>
+              <div className="ml-3">
+                <p className="text-red-700">
+                  <span className="font-medium">Warning!</span> This action is irreversible.
+                </p>
+              </div>
             </div>
           </div>
+          <InvoiceDeleteDialog />
         </div>
-        <InvoiceDeleteDialog />
-      </div>
+      )}
     </div>
   );
 }

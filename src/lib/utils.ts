@@ -18,6 +18,10 @@ export function formatDate(date: Date) {
   return format(date, 'dd LLL yyyy');
 }
 
+export function formatDateTime(date: Date) {
+  return format(date, 'dd LLL yyyy - p');
+}
+
 type Length = {
   length: number;
 };
