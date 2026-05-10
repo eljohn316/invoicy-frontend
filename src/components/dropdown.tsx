@@ -26,6 +26,10 @@ function DropdownMenuTrigger({ className, children, ...props }: MenuPrimitive.Tr
   );
 }
 
+function DropdownMenuGroup({ ...props }: MenuPrimitive.Group.Props) {
+  return <MenuPrimitive.Group data-slot="dropdown-menu-group" {...props} />;
+}
+
 function DropdownMenuContent({
   align = 'start',
   alignOffset = 0,
@@ -100,10 +104,35 @@ function DropdownMenuCheckboxItem({
   );
 }
 
+function DropdownMenuItem({
+  className,
+  inset,
+  variant = 'default',
+  ...props
+}: MenuPrimitive.Item.Props & {
+  inset?: boolean;
+  variant?: 'default' | 'destructive';
+}) {
+  return (
+    <MenuPrimitive.Item
+      data-slot="dropdown-menu-item"
+      data-inset={inset}
+      data-variant={variant}
+      className={cn(
+        'text-bunker-700 hover:bg-bunker-50 hover:text-bunker-800 cursor-pointer rounded-md px-2.5 py-1 text-[15px]',
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
 export {
   DropdownMenu,
   DropdownMenuPortal,
+  DropdownMenuGroup,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuCheckboxItem,
+  DropdownMenuItem,
 };
