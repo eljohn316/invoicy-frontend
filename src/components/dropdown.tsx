@@ -119,7 +119,7 @@ function DropdownMenuItem({
       data-inset={inset}
       data-variant={variant}
       className={cn(
-        'text-bunker-700 hover:bg-bunker-50 hover:text-bunker-800 cursor-pointer rounded-md px-2.5 py-1 text-[15px]',
+        'text-bunker-700 hover:bg-bunker-100 hover:text-bunker-800 cursor-pointer rounded-md px-2.5 py-1 text-[15px]',
         className,
       )}
       {...props}
