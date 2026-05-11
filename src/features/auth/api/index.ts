@@ -2,6 +2,7 @@ import { api } from '@/api';
 import type { User, UserLoginPayload, UserLoginResponse } from '@/features/auth/types';
 import type { SignUpPayload } from '@/features/auth/components/sign-up-form';
 import { isAxiosError } from 'axios';
+import type { UpdateDetailsPayload } from '@/features/settings/components/update-profile-details-form';
 
 export const login = async ({ email, password }: UserLoginPayload) => {
   try {
@@ -28,5 +29,10 @@ export const signUp = async (payload: Omit<SignUpPayload, 'confirmPassword'>) =>
 
 export const getCurrentUser = async () => {
   const { data } = await api.get<User>('/users/current-user');
+  return data;
+};
+
+export const updateCurrentUser = async (payload: UpdateDetailsPayload) => {
+  const { data } = await api.patch<User>('/users/current-user', payload);
   return data;
 };

@@ -1,10 +1,14 @@
 import * as z from 'zod';
+import { toast } from 'sonner';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { User } from '@/features/auth/types';
+import { updateCurrentUser } from '@/features/auth/api';
 import { Button } from '@/components/button';
 import { Field, FieldLabel, FieldError } from '@/components/fields';
 import { Input } from '@/components/input';
+import { Spinner } from '@/components/spinner';
 
 const UpdateDetailsFormSchema = z.object({
   firstName: z.string().min(1, "Can't be empty"),
@@ -12,7 +16,7 @@ const UpdateDetailsFormSchema = z.object({
   email: z.email(),
 });
 
-type UpdateDetailsPayload = z.infer<typeof UpdateDetailsFormSchema>;
+export type UpdateDetailsPayload = z.infer<typeof UpdateDetailsFormSchema>;
 
 type UpdateProfileDetailsFormProps = {
   user: User;
@@ -27,9 +31,20 @@ export function UpdateProfileDetailsForm({ user }: UpdateProfileDetailsFormProps
       email: user.email,
     },
   });
+  const queryClient = useQueryClient();
+  const { isPending, mutate: updateUser } = useMutation({
+    mutationFn: updateCurrentUser,
+    onSuccess: (data) => {
+      queryClient.setQueryData(['current-user'], data);
+      toast.success('Profile successfully updated');
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   function onSubmit(payload: UpdateDetailsPayload) {
-    console.log(payload);
+    updateUser(payload);
   }
 
   function handleReset() {
@@ -44,9 +59,9 @@ export function UpdateProfileDetailsForm({ user }: UpdateProfileDetailsFormProps
           control={form.control}
           name="firstName"
           render={({ field, fieldState }) => (
-            <Field fieldId={field.name} fieldError={fieldState.error}>
-              <FieldLabel>Email</FieldLabel>
-              <Input {...field} />
+            <Field fieldId={field.name} fieldError={fieldState.error} className="space-y-1">
+              <FieldLabel>First name</FieldLabel>
+              <Input {...field} disabled={isPending} />
               <FieldError />
             </Field>
           )}
@@ -55,9 +70,9 @@ export function UpdateProfileDetailsForm({ user }: UpdateProfileDetailsFormProps
           control={form.control}
           name="lastName"
           render={({ field, fieldState }) => (
-            <Field fieldId={field.name} fieldError={fieldState.error}>
+            <Field fieldId={field.name} fieldError={fieldState.error} className="space-y-1">
               <FieldLabel>Last Name</FieldLabel>
-              <Input {...field} />
+              <Input {...field} disabled={isPending} />
               <FieldError />
             </Field>
           )}
@@ -66,19 +81,20 @@ export function UpdateProfileDetailsForm({ user }: UpdateProfileDetailsFormProps
           control={form.control}
           name="email"
           render={({ field, fieldState }) => (
-            <Field fieldId={field.name} fieldError={fieldState.error}>
+            <Field fieldId={field.name} fieldError={fieldState.error} className="space-y-1">
               <FieldLabel>Email</FieldLabel>
-              <Input {...field} type="email" />
+              <Input {...field} type="email" disabled={isPending} />
               <FieldError />
             </Field>
           )}
         />
         <div className="flex justify-end gap-x-4">
-          <Button type="reset" variant="ghost" onClick={handleReset}>
+          <Button type="reset" variant="ghost" disabled={isPending} onClick={handleReset}>
             Reset
           </Button>
-          <Button type="submit" variant="primary">
-            Update
+          <Button type="submit" variant="primary" disabled={isPending}>
+            {isPending && <Spinner />}
+            {isPending ? 'Updating...' : 'Update'}
           </Button>
         </div>
       </form>
