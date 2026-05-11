@@ -4,7 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { User } from '@/features/auth/types';
-import { updateCurrentUser } from '@/features/auth/api';
+import { updateCurrentUser } from '@/features/settings/api';
 import { Button } from '@/components/button';
 import { Field, FieldLabel, FieldError } from '@/components/fields';
 import { Input } from '@/components/input';
