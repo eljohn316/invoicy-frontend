@@ -84,5 +84,5 @@ This project originated from a [Frontend Mentor challenge](https://www.frontendm
 ## Links
 
 - [Live Demo]()
-- [API Documentation]()
+- [API Documentation](http://18.140.255.93:8000/docs)
 - [Backend Repo](https://github.com/eljohn316/invoicy-backend)
