@@ -1,73 +1,88 @@
-# React + TypeScript + Vite
+# `Invoicy`
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
 
-Currently, two official plugins are available:
+This repository contains the frontend code for the invoicing application. It serves as the user-facing interface, providing a seamless experience for creating, managing, and tracking invoices through an intuitive UI.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Motivation
 
-## React Compiler
+This project originated from a [Frontend Mentor challenge](https://www.frontendmentor.io/challenges/invoice-app-i7KaLTQjl), to which I added additional features to enhance functionality. The primary motivation was to learn full‑stack development by building a complete invoicing application with React on the frontend and FastAPI on the backend (housed in a [separate repository](https://github.com/eljohn316/invoicy-backend)).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Technology Stack
 
-## Expanding the ESLint configuration
+- [**React**](https://react.dev/) for the main stack.
+  - Using TypeScript, hooks, and [**Vite**](https://vite.dev/)
+- [**TailwindCSS**](https://tailwindcss.com/) and [**shadcn/ui**](https://ui.shadcn.com/) for styling and UI components.
+- [**Axios**](https://axios.rest/) for the HTTP client
+- [**Tanstack Router**](https://tanstack.com/router/latest) used for client-side routing.
+- [**Tanstack Query**](https://tanstack.com/query/latest) used for async state management and data fetching
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Features
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Login
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+![Login Page](./img/app-login.png)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+### Sign Up
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+![Sign Up Page](./img/app-sign-up.png)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+### Invoices
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+![Invoices Page](./img/app-invoices.png)
+
+### Invoice Details
+
+![Invoice details Page](./img/app-invoice-details.png)
+
+### Invoice Create
+
+![Invoice Create Page](./img/app-invoice-create.png)
+
+### Invoice Update
+
+![Invoice Update Page](./img/app-invoice-update.png)
+
+### Invoice Delete
+
+![Invoice Delete Page](./img/app-invoice-delete.png)
+
+### Settings
+
+![Settings Page](./img/app-settings.png)
+
+## Development
+
+> [!IMPORTANT]  
+> You must first clone and setup the backend repo first, which can be found [here](https://github.com/eljohn316/invoicy-backend).
+
+1. Clone the repository:
+
+   ```bash
+   $ git clone <repository-url>
+   $ cd invoice-app/backend
+   ```
+
+2. Install dependencies with pnpm:
+
+   ```bash
+   $ pnpm i
+   ```
+
+3. Create .env.development
+
+   ```
+   VITE_API_URL='http://localhost:8000/api'
+   ```
+
+4. Running the app
+
+   ```bash
+   $ pnpm dev
+   ```
+
+## Links
+
+- [Live Demo]()
+- [API Documentation]()
+- [Backend Repo](https://github.com/eljohn316/invoicy-backend)
