@@ -38,7 +38,7 @@ export function Navigation() {
               </DropdownMenuGroup>
               <DropdownMenuGroup className="space-y-0.75">
                 <DropdownMenuItem className="block" render={<Link to="/settings">Settings</Link>} />
-                <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => logout()}>Logout</DropdownMenuItem>
               </DropdownMenuGroup>
             </div>
           </DropdownMenuContent>

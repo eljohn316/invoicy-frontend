@@ -1,6 +1,7 @@
 import * as z from 'zod';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Dialog,
@@ -12,12 +13,16 @@ import {
 import { Button } from '@/components/button';
 import { Field, FieldError, FieldLabel } from '@/components/fields';
 import { Input } from '@/components/input';
+import { Alert } from '@/components/alert';
+import { Spinner } from '@/components/spinner';
+import { deleteCurrentUser } from '@/features/settings/api';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 
 const DeleteAccountFormSchema = z.object({
   password: z.string().min(1, "Can't be empty").min(8, 'Password too short'),
 });
 
-type DeleteAccountPayload = z.infer<typeof DeleteAccountFormSchema>;
+export type DeleteAccountPayload = z.infer<typeof DeleteAccountFormSchema>;
 
 export function DeleteAccount() {
   const [open, setOpen] = useState(false);
@@ -28,15 +33,28 @@ export function DeleteAccount() {
       password: '',
     },
   });
+  const { logout } = useAuth();
+  const {
+    isPending,
+    mutate: deleteUser,
+    error,
+    reset,
+  } = useMutation({
+    mutationFn: deleteCurrentUser,
+    onSuccess: ({ message }) => {
+      logout(message);
+    },
+  });
 
   function onSubmit(payload: DeleteAccountPayload) {
-    console.log(payload);
+    deleteUser(payload);
   }
 
   function handleToggleModal(open: boolean) {
     setOpen(open);
 
     if (open === false) {
+      reset();
       form.reset({ password: '' });
     }
   }
@@ -52,6 +70,7 @@ export function DeleteAccount() {
         <DialogContent>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <DialogTitle>Delete account</DialogTitle>
+            {error && <Alert className="mt-4">{error.message}</Alert>}
             <DialogDescription className="mt-4 text-[15px]">
               Enter password to confirm account deletion
             </DialogDescription>
@@ -60,15 +79,16 @@ export function DeleteAccount() {
                 control={form.control}
                 name="password"
                 render={({ field, fieldState }) => (
-                  <Field fieldId={field.name} fieldError={fieldState.error}>
+                  <Field fieldId={field.name} fieldError={fieldState.error} className="space-y-1">
                     <FieldLabel className="sr-only">Current password</FieldLabel>
-                    <Input {...field} type="password" />
+                    <Input {...field} type="password" disabled={isPending} />
                     <FieldError />
                   </Field>
                 )}
               />
               <Button type="submit" variant="danger" className="w-full">
-                Delete account
+                {isPending && <Spinner />}
+                {isPending ? 'Deleting account...' : 'Delete account'}
               </Button>
             </div>
           </form>

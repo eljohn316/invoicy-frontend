@@ -66,11 +66,11 @@ function useAuth() {
     },
   });
 
-  const logout = async () => {
+  const logout = async (message?: string) => {
     removeAccessToken();
     queryClient.setQueryData(['current-user'], null);
     await navigate({ to: '/login' });
-    toast.success('Successfully logged out');
+    toast.success(message || 'Successfully logged out');
   };
 
   return {
