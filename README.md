@@ -59,8 +59,8 @@ This project originated from a [Frontend Mentor challenge](https://www.frontendm
 1. Clone the repository:
 
    ```bash
-   $ git clone <repository-url>
-   $ cd invoice-app/backend
+   $ git clone https://github.com/eljohn316/invoicy-frontend
+   $ cd invoice-frontend
    ```
 
 2. Install dependencies with pnpm:
